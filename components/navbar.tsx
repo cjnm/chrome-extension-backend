@@ -10,12 +10,14 @@ import {
 } from "@nextui-org/react";
 import NextLink from "next/link";
 import clsx from "clsx";
-
+import { usePathname } from 'next/navigation';
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { Logo } from "@/components/icons";
 
 export const Navbar = () => {
+  const pathname = usePathname();
+
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
@@ -25,7 +27,7 @@ export const Navbar = () => {
             <p className="font-bold text-inherit">ACME</p>
           </NextLink>
         </NavbarBrand>
-        <div className="hidden lg:flex gap-4 justify-start ml-2">
+        {pathname !== '/login' ? <div className="hidden lg:flex gap-4 justify-start ml-2">
           {siteConfig.navItems.map((item) => (
             <NavbarItem key={item.href}>
               <NextLink
@@ -39,7 +41,7 @@ export const Navbar = () => {
               </NextLink>
             </NavbarItem>
           ))}
-        </div>
+        </div>: ''}
       </NavbarContent>
 
       <NavbarContent
@@ -53,10 +55,10 @@ export const Navbar = () => {
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
         <ThemeSwitch />
-        <NavbarMenuToggle />
+        {pathname !== '/login' ? <NavbarMenuToggle /> : ''}
       </NavbarContent>
 
-      <NavbarMenu>
+      {pathname !== '/login' ? <NavbarMenu>
         <div className="mx-4 mt-2 flex flex-col gap-2">
           {siteConfig.navMenuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
@@ -72,7 +74,7 @@ export const Navbar = () => {
             </NavbarMenuItem>
           ))}
         </div>
-      </NavbarMenu>
+      </NavbarMenu> : ''}
     </NextUINavbar>
   );
 };

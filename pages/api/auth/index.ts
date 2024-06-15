@@ -17,7 +17,7 @@ export default async function Handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(200).json(user);
     }
 
-    return res.json({jwt_token})
+    return res.status(401).json({ message: 'Auth required' });
   } catch (error) {
     return res.status(401).json({ message: 'Auth required' });
   }
