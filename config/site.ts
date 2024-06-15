@@ -10,7 +10,7 @@ export const siteConfig = {
       color: "foreground",
     },
     {
-      label: "API Keys",
+      label: "Chrome Extension",
       href: "/keys",
       color: "foreground",
     },
