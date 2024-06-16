@@ -1,47 +1,61 @@
-import DefaultLayout from "@/layouts/default";
-import { sessionExist } from "@/utils/auth";
-import { DeleteIcon, EyeIcon, EyeSlashFilledIcon } from '@nextui-org/shared-icons';
-import { Link, Spinner, Accordion, AccordionItem } from "@nextui-org/react";
+import {
+  DeleteIcon,
+  EyeIcon,
+  EyeSlashFilledIcon,
+} from "@nextui-org/shared-icons";
+import { Link, Spinner } from "@nextui-org/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@nextui-org/react";
-import { deleteAProduct, getAllProducts } from "@/utils/products";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@nextui-org/react";
 import Image from "next/image";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import React from "react";
+
+import { deleteAProduct, getAllProducts } from "@/utils/products";
+import { sessionExist } from "@/utils/auth";
+import DefaultLayout from "@/layouts/default";
 
 export default function IndexPage() {
   const [loading, setLoading] = useState(true);
   const [hasSession, setHasSession] = useState(true);
   const [products, setProducts] = useState([]);
   const [productsLoading, setProductsLoading] = useState(true);
-  const [showingProductDetail, setShowingProductDetail] = useState('');
+  const [showingProductDetail, setShowingProductDetail] = useState("");
 
   const { push } = useRouter();
 
   useEffect(() => {
-    setHasSession(sessionExist())
+    setHasSession(sessionExist());
     setLoading(false);
-    getAllProducts().then(response => {
+    getAllProducts().then((response) => {
       setProducts(response);
       setProductsLoading(false);
-    })
+    });
   }, []);
 
   const viewProductDetail = (id: string, product: any) => {
-    if(showingProductDetail === id) {
+    if (showingProductDetail === id) {
       const element = document.getElementById(id);
+
       if (element) {
         element.remove();
       }
-      setShowingProductDetail('');
+      setShowingProductDetail("");
+
       return;
-    } else if(showingProductDetail !== '' && showingProductDetail !== id) {
+    } else if (showingProductDetail !== "" && showingProductDetail !== id) {
       const element = document.getElementById(showingProductDetail);
+
       if (element) {
         element.remove();
       }
-      setShowingProductDetail('');
+      setShowingProductDetail("");
     }
 
     setShowingProductDetail(id);
@@ -49,8 +63,9 @@ export default function IndexPage() {
     const element: any = document.querySelector(`[data-key="${id}"]`);
 
     // Create a new div element to contain the additional HTML content
-    const newElement: any = document.createElement('tr');
-    newElement.setAttribute('id', id);
+    const newElement: any = document.createElement("tr");
+
+    newElement.setAttribute("id", id);
     newElement.innerHTML = `
       <style>
         ul {
@@ -95,19 +110,19 @@ export default function IndexPage() {
                   <tbody>
                      <tr>
                         <td>Delivery Charge</td>
-                        <td>${product.delivery_charge || 'N/A'}</td>
+                        <td>${product.delivery_charge || "N/A"}</td>
                      </tr>
                      <tr>
                         <td>Delivery Time</td>
-                        <td>${product.delivery_time || 'N/A'}</td>
+                        <td>${product.delivery_time || "N/A"}</td>
                      </tr>
                      <tr>
                         <td>Delivery Type</td>
-                        <td>${product.delivery_type || 'N/A'}</td>
+                        <td>${product.delivery_type || "N/A"}</td>
                      </tr>
                      <tr>
                         <td>Return Policy</td>
-                        <td>${product.return_policy || 'N/A'}</td>
+                        <td>${product.return_policy || "N/A"}</td>
                      </tr>
                   </tbody>
                </table>
@@ -121,37 +136,44 @@ export default function IndexPage() {
     `;
 
     // Insert the new element after the identified element
-    element.insertAdjacentElement('afterend', newElement);
-  }
+    element.insertAdjacentElement("afterend", newElement);
+  };
 
   const deleteItem = (id: string) => {
-    deleteAProduct(id).then(response => {
-      getAllProducts().then(response => {
+    deleteAProduct(id).then((response) => {
+      getAllProducts().then((response) => {
         setProducts(response);
         setProductsLoading(false);
-      })
-    })
-  }
+      });
+    });
+  };
 
   if (loading) {
     <DefaultLayout>
       <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
         <div className="flex gap-3">
-          <Spinner label="Loading..." color="warning" />
+          <Spinner color="warning" label="Loading..." />
         </div>
       </section>
-    </DefaultLayout>
-  } if (hasSession && !loading) {
+    </DefaultLayout>;
+  }
+  if (hasSession && !loading) {
     return (
       <DefaultLayout>
         <section className="flex flex-col gap-4">
           <div className="inline-block">
-            <p className="max-w-lg text-2xl font-semibold leading-normal text-gray-900 dark:text-white">Products</p>
+            <p className="max-w-lg text-2xl font-semibold leading-normal text-gray-900 dark:text-white">
+              Products
+            </p>
           </div>
-          {productsLoading ? <Spinner label="Loading products..." color="warning" /> : ''}
-          {(!productsLoading && !products.length) ? 'No Products Found' : ''}
-          {(!productsLoading && products.length)
-            ? <Table aria-label="Example static collection table">
+          {productsLoading ? (
+            <Spinner color="warning" label="Loading products..." />
+          ) : (
+            ""
+          )}
+          {!productsLoading && !products.length ? "No Products Found" : ""}
+          {!productsLoading && products.length ? (
+            <Table aria-label="Example static collection table">
               <TableHeader>
                 <TableColumn> </TableColumn>
                 <TableColumn>Name</TableColumn>
@@ -166,34 +188,57 @@ export default function IndexPage() {
                   return (
                     <TableRow key={product?._id}>
                       <TableCell>
-                        <Link href={product?.image || '#'} isExternal>
-                          <Image alt={product?.name || ''} src={product?.image || ''} width={85} height={85} />
+                        <Link isExternal href={product?.image || "#"}>
+                          <Image
+                            alt={product?.name || ""}
+                            height={85}
+                            src={product?.image || ""}
+                            width={85}
+                          />
                         </Link>
                       </TableCell>
                       <TableCell>
-                        <Link href={product?.product_url || '#'} isExternal>
-                          {product?.name || ''}
+                        <Link isExternal href={product?.product_url || "#"}>
+                          {product?.name || ""}
                         </Link>
                       </TableCell>
-                      <TableCell width={'7%'}>{product?.price || ''}</TableCell>
-                      <TableCell>{product?.rating || 'N/A'}</TableCell>
-                      <TableCell><Link href={product?.seller_url || '#'} isExternal>{product?.seller || ''}</Link></TableCell>
+                      <TableCell width={"7%"}>{product?.price || ""}</TableCell>
+                      <TableCell>{product?.rating || "N/A"}</TableCell>
+                      <TableCell>
+                        <Link isExternal href={product?.seller_url || "#"}>
+                          {product?.seller || ""}
+                        </Link>
+                      </TableCell>
                       <TableCell className="m-0 p-0">
-                        {showingProductDetail !== product._id ? <EyeIcon onClick={() => viewProductDetail(product._id, product)} /> : <EyeSlashFilledIcon onClick={() => viewProductDetail(product._id, product)} />}
+                        {showingProductDetail !== product._id ? (
+                          <EyeIcon
+                            onClick={() =>
+                              viewProductDetail(product._id, product)
+                            }
+                          />
+                        ) : (
+                          <EyeSlashFilledIcon
+                            onClick={() =>
+                              viewProductDetail(product._id, product)
+                            }
+                          />
+                        )}
                       </TableCell>
                       <TableCell className="m-0 p-0">
                         <DeleteIcon onClick={() => deleteItem(product._id)} />
                       </TableCell>
                     </TableRow>
-                  )
+                  );
                 })}
               </TableBody>
             </Table>
-            : ''}
+          ) : (
+            ""
+          )}
         </section>
       </DefaultLayout>
     );
   } else if (!loading && !hasSession) {
-    push('/login');
+    push("/login");
   }
 }

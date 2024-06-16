@@ -1,11 +1,11 @@
 import { Link, Spinner, button as buttonStyles } from "@nextui-org/react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 import { GithubIcon } from "@/components/icons";
 import DefaultLayout from "@/layouts/default";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import { checkAuthStatus } from "@/utils/auth";
-import { useRouter } from "next/router";
 
 export default function Login() {
   const [loading, setLoading] = useState(true);
@@ -13,24 +13,31 @@ export default function Login() {
   const searchParams = useSearchParams();
   const { push } = useRouter();
 
-  const jwt: string | null = searchParams.get('jwt') || null;
-  let localUser: string | null = typeof window !== "undefined" ? localStorage.getItem('chrome-extension-user') : null;
+  const jwt: string | null = searchParams.get("jwt") || null;
+  let localUser: string | null =
+    typeof window !== "undefined"
+      ? localStorage.getItem("chrome-extension-user")
+      : null;
 
   useEffect(() => {
-    if(jwt) {
-      checkAuthStatus(jwt).then(response => {
+    if (jwt) {
+      checkAuthStatus(jwt).then((response) => {
         setLoading(false);
         setLoggedIn(response);
-        if(typeof window !== "undefined") {
-          localStorage.setItem('chrome-extension-user', JSON.stringify({jwt}));
+        if (typeof window !== "undefined") {
+          localStorage.setItem(
+            "chrome-extension-user",
+            JSON.stringify({ jwt }),
+          );
         }
-      })
-    } else if(localUser) {
+      });
+    } else if (localUser) {
       const { jwt } = JSON.parse(localUser);
-      checkAuthStatus(jwt).then(response => {
+
+      checkAuthStatus(jwt).then((response) => {
         setLoading(false);
         setLoggedIn(response);
-      })
+      });
     } else {
       setLoading(false);
       setLoggedIn(false);
@@ -42,12 +49,11 @@ export default function Login() {
       <DefaultLayout>
         <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
           <div className="flex gap-3">
-            <Spinner label="Loading..." color="warning" />
+            <Spinner color="warning" label="Loading..." />
           </div>
         </section>
       </DefaultLayout>
-    )
-
+    );
   } else if (!loading && !loggedIn) {
     return (
       <DefaultLayout>
@@ -65,6 +71,6 @@ export default function Login() {
       </DefaultLayout>
     );
   } else {
-    push('/');
+    push("/");
   }
 }

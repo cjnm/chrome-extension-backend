@@ -1,4 +1,5 @@
-const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, NEXT_PUBLIC_APP_URI } = process.env;
+const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, NEXT_PUBLIC_APP_URI } =
+  process.env;
 
 // returns the Github oAuth url
 const getGithubAuthURI = () => {

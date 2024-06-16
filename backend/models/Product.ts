@@ -1,8 +1,8 @@
-import { Schema, model, models, InferSchemaType } from 'mongoose';
+import { Schema, model, models, InferSchemaType } from "mongoose";
 
 const productSchema = new Schema(
   {
-    user: { type: Schema.Types.Number, ref: 'User', index: true },
+    user: { type: Schema.Types.Number, ref: "User", index: true },
     name: Schema.Types.String,
     price: Schema.Types.String,
     image: Schema.Types.String,
@@ -21,6 +21,6 @@ const productSchema = new Schema(
 
 export type SchemaType = InferSchemaType<typeof productSchema>;
 
-const Product = models?.Product || model<SchemaType>('Product', productSchema);
+const Product = models?.Product || model<SchemaType>("Product", productSchema);
 
 export { Product };
