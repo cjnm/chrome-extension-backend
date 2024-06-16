@@ -58,7 +58,7 @@ export default function Login() {
     return (
       <DefaultLayout>
         <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-          <div className="flex gap-3">
+          <div className="flex gap-3 mt-36">
             <Link
               className={buttonStyles({ variant: "bordered", radius: "full" })}
               href={`${process.env.NEXT_PUBLIC_APP_URI}/api/auth/github`}
