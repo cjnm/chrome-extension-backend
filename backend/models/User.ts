@@ -2,13 +2,13 @@ import { Schema, model, models, InferSchemaType } from 'mongoose';
 
 const userSchema = new Schema(
   {
-    id: Schema.Types.Number,
+    id: { type: Schema.Types.Number, index: true, unique: true, required: true },
     username: Schema.Types.String,
     avatar_url: Schema.Types.String,
     name: Schema.Types.String,
     email: Schema.Types.String,
   },
-  { timestamps: true },
+  { _id: false, timestamps: true },
 );
 
 export type SchemaType = InferSchemaType<typeof userSchema>;
