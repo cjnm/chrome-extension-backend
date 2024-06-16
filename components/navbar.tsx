@@ -32,7 +32,7 @@ export const Navbar = () => {
             <NavbarItem key={item.href}>
               <NextLink
                 className={clsx(
-                  linkStyles({ color: item.color }),
+                  linkStyles({ color: item.label === "Logout" ? 'danger' : 'foreground' }),
                   "data-[active=true]:text-primary data-[active=true]:font-medium",
                 )}
                 href={item.href}
@@ -64,7 +64,7 @@ export const Navbar = () => {
             <NavbarMenuItem key={`${item}-${index}`}>
               <NextLink
                 className={clsx(
-                  linkStyles({ color: item.color }),
+                  linkStyles({  color: item.label === "Logout" ? 'danger' : 'foreground' }),
                   "data-[active=true]:text-primary data-[active=true]:font-medium",
                 )}
                 href={item.href}

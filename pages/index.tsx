@@ -46,10 +46,10 @@ export default function IndexPage() {
 
     setShowingProductDetail(id);
     // Find the element with the specified data-id
-    const element = document.querySelector(`[data-key="${id}"]`);
+    const element: any = document.querySelector(`[data-key="${id}"]`);
 
     // Create a new div element to contain the additional HTML content
-    const newElement = document.createElement('tr');
+    const newElement: any = document.createElement('tr');
     newElement.setAttribute('id', id);
     newElement.innerHTML = `
       <style>
@@ -162,9 +162,9 @@ export default function IndexPage() {
                 <TableColumn> </TableColumn>
               </TableHeader>
               <TableBody>
-                {products.map((product) => {
+                {products.map((product: any) => {
                   return (
-                    <TableRow key={product._id}>
+                    <TableRow key={product?._id}>
                       <TableCell>
                         <Link href={product?.image || '#'} isExternal>
                           <Image alt={product?.name || ''} src={product?.image || ''} width={85} height={85} />
