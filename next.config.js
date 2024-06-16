@@ -8,6 +8,11 @@ const nextConfig = {
         hostname: 'static-01.daraz.com.np',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'np-live-21.slatic.net',
+        port: '',
+      },
     ],
   },
 }
