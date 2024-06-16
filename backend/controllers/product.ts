@@ -10,8 +10,8 @@ const saveProduct = (data: Record<string, string | undefined | number>) => {
   );
 };
 
-const getAllProduct = (quer: Record<string, string | number>) => {
-  return Product.find(quer);
+const getAllProduct = (query: Record<string, string | number>) => {
+  return Product.find(query).sort({updatedAt: -1});
 };
 
 const getOneProduct = ({ user, id }: Record<string, string | number>) => {
